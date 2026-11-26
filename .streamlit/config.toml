@@ -1,0 +1,28 @@
+
+[theme]
+base = "dark"
+primaryColor = "#2563EB"
+backgroundColor = "#111827"
+secondaryBackgroundColor = "#1F2937"
+textColor = "#FFFFFF"
+font = "sans serif"
+
+[client]
+toolbarMode = "minimal"
+
+# Configurações do servidor Streamlit
+[server]
+
+# Endereço de escuta:
+# 0.0.0.0 = escuta em todas as interfaces IPv4 disponíveis.
+address = "0.0.0.0"
+
+# Porta TCP utilizada pelo Streamlit.
+# 8501 = porta padrão do Streamlit.
+port = 8501
+
+# Executa sem abrir automaticamente a interface do navegador.
+headless = true
+
+# Desabilita o monitoramento de alterações nos arquivos.
+fileWatcherType = "none"
