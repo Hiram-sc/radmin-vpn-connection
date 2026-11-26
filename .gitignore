@@ -1,0 +1,85 @@
+
+# ==============================
+# Python
+# ==============================
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyd
+
+# ==============================
+# Ambientes virtuais
+# ==============================
+venv/
+.venv/
+env/
+ENV/
+
+# ==============================
+# Dependências e builds
+# ==============================
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# ==============================
+# Testes e cobertura
+# ==============================
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+
+# ==============================
+# Streamlit
+# ==============================
+.streamlit/secrets.toml
+
+# ==============================
+# Credenciais e variáveis locais
+# ==============================
+.env
+.env.*
+!.env.example
+secrets/
+*.pem
+*.key
+
+# ==============================
+# Logs
+# ==============================
+logs/
+*.log
+
+# ==============================
+# Arquivos temporários
+# ==============================
+*.tmp
+*.bak
+*.swp
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ==============================
+# Arquivos de IDE
+# ==============================
+.vscode/
+.idea/
+
+# ==============================
+# Arquivos de planilhas de teste
+# ==============================
+*_teste.xlsx
+*_teste.csv
+teste_*.xlsx
+teste_*.csv
+
+# ==============================
+# Dados locais
+# ==============================
+data/
+uploads/
