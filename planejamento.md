@@ -86,7 +86,7 @@ Fazer o painel `app.py`:
 - [ ] Rodar linha de base quando as dependências estiverem instaladas:
 
 ```powershell
-.\venv\Scripts\python.exe -B -c "import ast, pathlib; [ast.parse(pathlib.Path(p).read_text(encoding='utf-8'), filename=p) for p in ['app.py', 'modules/execution_lock.py', 'modules/spreadsheet.py', 'modules/ui_state.py', 'modules/validation.py', 'modules/vpn_automation.py', 'tests/diagnostico_radmin.py', 'tests/test_controle_execucao.py', 'tests/test_detectacao_erro.py', 'tests/test_estado_interface.py', 'tests/test_fluxo_automacao.py', 'tests/test_planilha.py', 'tests/test_validacao.py']]"
+.\venv\Scripts\python.exe -B -c "import ast, pathlib; [ast.parse(pathlib.Path(p).read_text(encoding='utf-8'), filename=p) for p in ['app.py', 'modules/execution_lock.py', 'modules/spreadsheet.py', 'modules/ui_state.py', 'modules/validation.py', 'modules/vpn_automation.py', 'tests/diagnostico_radmin.py', 'tests/test_controle_execucao.py', 'tests/test_deteccao_erro.py', 'tests/test_estado_interface.py', 'tests/test_fluxo_automacao.py', 'tests/test_planilha.py', 'tests/test_validacao.py']]"
 .\venv\Scripts\python.exe -B -m unittest -v tests.test_planilha tests.test_validacao tests.test_estado_interface tests.test_controle_execucao tests.test_deteccao_erro tests.test_fluxo_automacao
 ```
 
@@ -399,7 +399,7 @@ selecionada na tela.
 
 ```powershell
 # Validação estática sem dependências externas
-.\venv\Scripts\python.exe -B -c "import ast, pathlib; [ast.parse(pathlib.Path(p).read_text(encoding='utf-8'), filename=p) for p in ['app.py', 'modules/execution_lock.py', 'modules/spreadsheet.py', 'modules/ui_state.py', 'modules/validation.py', 'modules/vpn_automation.py', 'tests/diagnostico_radmin.py', 'tests/test_controle_execucao.py', 'tests/test_detectacao_erro.py', 'tests/test_estado_interface.py', 'tests/test_fluxo_automacao.py', 'tests/test_planilha.py', 'tests/test_validacao.py']]"
+.\venv\Scripts\python.exe -B -c "import ast, pathlib; [ast.parse(pathlib.Path(p).read_text(encoding='utf-8'), filename=p) for p in ['app.py', 'modules/execution_lock.py', 'modules/spreadsheet.py', 'modules/ui_state.py', 'modules/validation.py', 'modules/vpn_automation.py', 'tests/diagnostico_radmin.py', 'tests/test_controle_execucao.py', 'tests/test_deteccao_erro.py', 'tests/test_estado_interface.py', 'tests/test_fluxo_automacao.py', 'tests/test_planilha.py', 'tests/test_validacao.py']]"
 
 # Testes isolados após instalação das dependências
 .\venv\Scripts\python.exe -B -m unittest -v tests.test_planilha tests.test_validacao tests.test_estado_interface tests.test_controle_execucao tests.test_deteccao_erro tests.test_fluxo_automacao
