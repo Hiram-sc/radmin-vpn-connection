@@ -3,8 +3,8 @@
 > Documento de planejamento. Não executar as etapas marcadas com **AUTORIZAÇÃO**
 > sem aprovação explícita do usuário.
 >
-> Data de referência: 2026-11-04
-> Projeto: `C:\Users\Hiram\Desktop\vs`
+> Data de referência: 2026-11-25
+> Projeto: estrutura atual do repositório
 
 ---
 
@@ -20,7 +20,7 @@
 - Preenchimento de `LENetName` e `LEPassword` por AutomationId.
 - Clique em `joinPushButton` (o diálogo fechou após o envio).
 - Fallbacks preservados: coordenadas `(80,37)` / `(50,115)` e tecla `Enter`.
-- 28 testes isolados passando; compilação OK.
+- Testes isolados consolidados em seis módulos sob `tests/`; execução pendente de dependências.
 - Smoke test do Streamlit OK.
 
 ### Evidência do teste real (rede `S. REI DO ÂNCORA'`)
@@ -76,21 +76,21 @@ Fazer o painel `app.py`:
 
 ## 4. Fase 0 — Baseline antes de alterar
 
-- [ ] Revisar `git status` e `git diff`.
-- [ ] Criar commit de checkpoint do estado atual.
-- [ ] Confirmar versões:
+- [x] Revisar `git status` e os arquivos incluídos antes de cada commit.
+- [x] Criar commits do baseline e da reorganização de testes.
+- [x] Confirmar versões registradas:
   - `pywinauto==0.6.9`
   - `pyautogui==0.9.54`
   - `pyperclip==1.11.0`
   - `streamlit==1.66.1`
-- [ ] Rodar linha de base (deve passar antes de mexer):
+- [ ] Rodar linha de base quando as dependências estiverem instaladas:
 
 ```powershell
-.\venv\Scripts\python.exe -m py_compile app.py modules\spreadsheet.py modules\validation.py modules\vpn_automation.py tests\test_fluxo_automacao.py
-.\venv\Scripts\python.exe -m unittest tests.test_fluxo_automacao -v
+.\venv\Scripts\python.exe -B -c "import ast, pathlib; [ast.parse(pathlib.Path(p).read_text(encoding='utf-8'), filename=p) for p in ['app.py', 'modules/execution_lock.py', 'modules/spreadsheet.py', 'modules/ui_state.py', 'modules/validation.py', 'modules/vpn_automation.py', 'tests/diagnostico_radmin.py', 'tests/test_controle_execucao.py', 'tests/test_detectacao_erro.py', 'tests/test_estado_interface.py', 'tests/test_fluxo_automacao.py', 'tests/test_planilha.py', 'tests/test_validacao.py']]"
+.\venv\Scripts\python.exe -B -m unittest -v tests.test_planilha tests.test_validacao tests.test_estado_interface tests.test_controle_execucao tests.test_deteccao_erro tests.test_fluxo_automacao
 ```
 
-**Critério de saída:** 28 testes OK, compilação OK, checkpoint criado.
+**Critério de saída:** seis módulos de teste OK, validação estática OK, dependências instaladas.
 
 ---
 
@@ -184,7 +184,7 @@ Online de Offline (texto, ícone, descrição de acessibilidade ou botão).
 
 ### 5.3 Implementação de `obter_status_redes()`
 
-Arquivo: `modules/vpn_automation.py` (método atual em torno da linha 766).
+Arquivo: `modules/vpn_automation.py`; método atual em `modules/vpn_automation.py:827`.
 
 Regras:
 
@@ -334,7 +334,7 @@ selecionada na tela.
 - [ ] Documentar execução local:
 
 ```powershell
-.\venv\Scripts\streamlit.exe run app.py --server.address 127.0.0.1
+.\venv\Scripts\python.exe -B -m streamlit run app.py --server.address 127.0.0.1
 ```
 
 - [ ] Se precisar de LAN, usar proxy reverso com autenticação.
@@ -398,18 +398,20 @@ selecionada na tela.
 ## 10. Comandos de verificação
 
 ```powershell
-# Sintaxe
-.\venv\Scripts\python.exe -m py_compile app.py modules\spreadsheet.py modules\validation.py modules\vpn_automation.py tests\test_fluxo_automacao.py
+# Validação estática sem dependências externas
+.\venv\Scripts\python.exe -B -c "import ast, pathlib; [ast.parse(pathlib.Path(p).read_text(encoding='utf-8'), filename=p) for p in ['app.py', 'modules/execution_lock.py', 'modules/spreadsheet.py', 'modules/ui_state.py', 'modules/validation.py', 'modules/vpn_automation.py', 'tests/diagnostico_radmin.py', 'tests/test_controle_execucao.py', 'tests/test_detectacao_erro.py', 'tests/test_estado_interface.py', 'tests/test_fluxo_automacao.py', 'tests/test_planilha.py', 'tests/test_validacao.py']]"
 
-# Testes isolados
-.\venv\Scripts\python.exe -m unittest tests.test_fluxo_automacao -v
+# Testes isolados após instalação das dependências
+.\venv\Scripts\python.exe -B -m unittest -v tests.test_planilha tests.test_validacao tests.test_estado_interface tests.test_controle_execucao tests.test_deteccao_erro tests.test_fluxo_automacao
 
-# Smoke test do painel
-.\venv\Scripts\streamlit.exe run app.py --server.headless true --server.port 8601
-# Em outro terminal:
-Invoke-WebRequest -UseBasicParsing http://localhost:8601/_stcore/health
-# Resultado esperado: ok
-# Encerrar o processo da porta 8601 depois.
+# Diagnósticos manuais, somente com autorização
+.\venv\Scripts\python.exe -B tests\diagnostico_radmin.py janelas
+.\venv\Scripts\python.exe -B tests\diagnostico_radmin.py programa
+.\venv\Scripts\python.exe -B tests\diagnostico_radmin.py formulario
+.\venv\Scripts\python.exe -B tests\diagnostico_radmin.py campos
+
+# Smoke test do painel, somente com autorização
+.\venv\Scripts\python.exe -B -m streamlit run app.py --server.headless true --server.address 127.0.0.1 --server.port 8601
 ```
 
 ---
@@ -438,7 +440,7 @@ Invoke-WebRequest -UseBasicParsing http://localhost:8601/_stcore/health
 
 ## 13. Checklist resumido para rodar depois
 
-1. [ ] Fase 0 — baseline + commit.
+1. [x] Fase 0 — baseline + commits.
 2. [ ] Autorizar diagnóstico somente leitura (Portão A).
 3. [ ] Executar script da seção 5.1 e registrar evidências.
 4. [ ] Escolher a linha da matriz 5.2.
@@ -461,3 +463,6 @@ Invoke-WebRequest -UseBasicParsing http://localhost:8601/_stcore/health
 - O painel atual executa, mas não pode afirmar sucesso com segurança.
 - A correção do status é a única mudança que depende de evidência real do Radmin.
 - Sem essa evidência, a decisão correta continua sendo `indeterminado`.
+- O venv do projeto contém apenas `pip`; a instalação das dependências segue pendente.
+- Os diagnósticos manuais estão consolidados em `tests/diagnostico_radmin.py`.
+- A abertura automática do Radmin não está implementada; `garantir_radmin_aberto()` apenas localiza a janela.
